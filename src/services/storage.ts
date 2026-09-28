@@ -20,10 +20,42 @@ export const StorageService = {
     }
   },
 
+  fetchStudentsFromSupabase: async (): Promise<Student[] | null> => {
+    if (!isSupabaseConfigured || !supabase) return null;
+    try {
+      const { data, error } = await supabase.from('students').select('*');
+      if (error) {
+        console.warn('Erro ao carregar alunos do Supabase:', error);
+        return null;
+      }
+      if (data && data.length > 0) {
+        localStorage.setItem(KEYS.STUDENTS, JSON.stringify(data));
+        return data as Student[];
+      }
+      return null;
+    } catch (e) {
+      console.warn('Falha na conexão com Supabase:', e);
+      return null;
+    }
+  },
+
   saveStudents: (students: Student[]): void => {
     localStorage.setItem(KEYS.STUDENTS, JSON.stringify(students));
     if (isSupabaseConfigured && supabase) {
       supabase.from('students').upsert(students).then();
+    }
+  },
+
+  deleteStudent: (studentId: string): void => {
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('students').delete().eq('id', studentId).then();
+    }
+  },
+
+  clearAllStudents: (): void => {
+    localStorage.setItem(KEYS.STUDENTS, JSON.stringify([]));
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('students').delete().neq('id', '___none___').then();
     }
   },
 
@@ -37,10 +69,30 @@ export const StorageService = {
     }
   },
 
+  fetchFiliaisFromSupabase: async (): Promise<Filial[] | null> => {
+    if (!isSupabaseConfigured || !supabase) return null;
+    try {
+      const { data, error } = await supabase.from('filiais').select('*');
+      if (!error && data && data.length > 0) {
+        localStorage.setItem(KEYS.FILIAIS, JSON.stringify(data));
+        return data as Filial[];
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  },
+
   saveFiliais: (filiais: Filial[]): void => {
     localStorage.setItem(KEYS.FILIAIS, JSON.stringify(filiais));
     if (isSupabaseConfigured && supabase) {
       supabase.from('filiais').upsert(filiais).then();
+    }
+  },
+
+  deleteFilial: (filialId: string): void => {
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('filiais').delete().eq('id', filialId).then();
     }
   },
 
@@ -71,8 +123,33 @@ export const StorageService = {
     }
   },
 
+  fetchConfigFromSupabase: async (): Promise<CertificateConfig | null> => {
+    if (!isSupabaseConfigured || !supabase) return null;
+    try {
+      const { data, error } = await supabase
+        .from('certificate_config')
+        .select('data')
+        .eq('id', 'default_config')
+        .single();
+      if (!error && data && data.data) {
+        localStorage.setItem(KEYS.CONFIG, JSON.stringify(data.data));
+        return data.data as CertificateConfig;
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  },
+
   saveConfig: (config: CertificateConfig): void => {
     localStorage.setItem(KEYS.CONFIG, JSON.stringify(config));
+    if (isSupabaseConfigured && supabase) {
+      supabase.from('certificate_config').upsert({
+        id: 'default_config',
+        data: config,
+        updated_at: new Date().toISOString()
+      }).then();
+    }
   },
 
   // Export full backup

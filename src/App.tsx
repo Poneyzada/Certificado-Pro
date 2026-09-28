@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { Student, Filial, BeltType, CertificateConfig } from './types';
 import { StorageService } from './services/storage';
 import { BJJ_BELTS, getBeltById } from './constants/belts';
+import { INITIAL_STUDENTS } from './constants/defaultConfig';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { RightPanel } from './components/RightPanel';
@@ -35,11 +36,25 @@ export function App() {
   const [printModalStudents, setPrintModalStudents] = useState<Student[] | null>(null);
   const [previewStudent, setPreviewStudent] = useState<Student | null>(null);
 
-  // Load Initial Data
+  // Load Initial Data and Sync with Cloud
   useEffect(() => {
+    // 1. Instant local read
     setStudents(StorageService.getStudents());
     setFiliais(StorageService.getFiliais());
     setConfig(StorageService.getConfig());
+
+    // 2. Background sync from Supabase if online
+    StorageService.fetchStudentsFromSupabase().then(cloudStudents => {
+      if (cloudStudents) setStudents(cloudStudents);
+    });
+
+    StorageService.fetchFiliaisFromSupabase().then(cloudFiliais => {
+      if (cloudFiliais) setFiliais(cloudFiliais);
+    });
+
+    StorageService.fetchConfigFromSupabase().then(cloudConfig => {
+      if (cloudConfig) setConfig(cloudConfig);
+    });
   }, []);
 
   // Sync to Storage
@@ -74,8 +89,21 @@ export function App() {
   const handleDeleteStudent = (studentId: string) => {
     if (confirm('Deseja excluir este graduando?')) {
       const updated = students.filter(s => s.id !== studentId);
-      handleUpdateStudents(updated);
+      setStudents(updated);
+      StorageService.saveStudents(updated);
+      StorageService.deleteStudent(studentId);
     }
+  };
+
+  const handleClearAllStudents = () => {
+    if (confirm('Tem certeza que deseja apagar todos os alunos cadastrados para começar limpo?')) {
+      setStudents([]);
+      StorageService.clearAllStudents();
+    }
+  };
+
+  const handleLoadDemoStudents = () => {
+    handleUpdateStudents(INITIAL_STUDENTS);
   };
 
   const handleMarkAsPrinted = (studentIds: string[]) => {
@@ -328,6 +356,8 @@ export function App() {
             onOpenImport={() => setIsImportModalOpen(true)}
             onOpenSettings={() => setIsSettingsModalOpen(true)}
             onPrintAllPending={() => setPrintModalStudents(pendingStudents)}
+            onClearAllStudents={handleClearAllStudents}
+            onLoadDemoStudents={handleLoadDemoStudents}
           />
         </div>
       </div>

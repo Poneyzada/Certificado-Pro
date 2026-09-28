@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Student, Filial } from '../types';
-import { Printer, Download, Upload, SlidersHorizontal, Plus, Building2 } from 'lucide-react';
+import { Printer, Download, Upload, SlidersHorizontal, Plus, Building2, Trash2, RefreshCw } from 'lucide-react';
 import { StorageService } from '../services/storage';
 
 interface RightPanelProps {
@@ -11,6 +11,8 @@ interface RightPanelProps {
   onOpenImport: () => void;
   onOpenSettings: () => void;
   onPrintAllPending: () => void;
+  onClearAllStudents: () => void;
+  onLoadDemoStudents: () => void;
 }
 
 export const RightPanel: React.FC<RightPanelProps> = ({
@@ -21,6 +23,8 @@ export const RightPanel: React.FC<RightPanelProps> = ({
   onOpenImport,
   onOpenSettings,
   onPrintAllPending,
+  onClearAllStudents,
+  onLoadDemoStudents,
 }) => {
   const totalStudents = students.length;
   const printedStudents = students.filter(s => s.printed).length;
@@ -164,6 +168,25 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           <SlidersHorizontal className="w-4 h-4 text-slate-500" />
           Personalizar Modelo
         </button>
+
+        {/* Clear or Restore Demo Data button */}
+        {totalStudents > 0 ? (
+          <button
+            onClick={onClearAllStudents}
+            className="w-full py-2 px-3 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            Limpar Todos os Alunos
+          </button>
+        ) : (
+          <button
+            onClick={onLoadDemoStudents}
+            className="w-full py-2 px-3 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+          >
+            <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+            Carregar Alunos de Exemplo
+          </button>
+        )}
 
         {/* Backup / Export */}
         <div className="flex gap-2 pt-2">
