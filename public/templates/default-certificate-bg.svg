@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1123 794" width="100%" height="100%">
+  <defs>
+    <!-- Parchment Gradient -->
+    <linearGradient id="parchment" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdfbf7" />
+      <stop offset="50%" stop-color="#f9f5ea" />
+      <stop offset="100%" stop-color="#f5efe0" />
+    </linearGradient>
+
+    <!-- Gold Gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cf9e38" />
+      <stop offset="25%" stop-color="#f7e089" />
+      <stop offset="50%" stop-color="#c9972a" />
+      <stop offset="75%" stop-color="#faecc1" />
+      <stop offset="100%" stop-color="#aa791b" />
+    </linearGradient>
+
+    <linearGradient id="darkGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#916c16" />
+      <stop offset="100%" stop-color="#5a4209" />
+    </linearGradient>
+
+    <!-- Pattern -->
+    <pattern id="subtleGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e8dfca" stroke-width="0.5" opacity="0.3" />
+    </pattern>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1123" height="794" fill="url(#parchment)" />
+  <rect width="1123" height="794" fill="url(#subtleGrid)" />
+
+  <!-- Outer Borders -->
+  <rect x="25" y="25" width="1073" height="744" rx="4" fill="none" stroke="url(#goldGrad)" stroke-width="6" />
+  <rect x="35" y="35" width="1053" height="724" fill="none" stroke="#222222" stroke-width="1.5" opacity="0.4" />
+  <rect x="42" y="42" width="1039" height="710" fill="none" stroke="url(#goldGrad)" stroke-width="2" />
+
+  <!-- Corner Ornaments -->
+  <g fill="none" stroke="url(#goldGrad)" stroke-width="3">
+    <!-- Top-Left -->
+    <path d="M 45 75 L 75 75 L 75 45" />
+    <circle cx="75" cy="75" r="4" fill="url(#goldGrad)" />
+    <path d="M 45 45 L 85 85" stroke-width="1.5" />
+
+    <!-- Top-Right -->
+    <path d="M 1078 75 L 1048 75 L 1048 45" />
+    <circle cx="1048" cy="75" r="4" fill="url(#goldGrad)" />
+    <path d="M 1078 45 L 1038 85" stroke-width="1.5" />
+
+    <!-- Bottom-Left -->
+    <path d="M 45 719 L 75 719 L 75 749" />
+    <circle cx="75" cy="719" r="4" fill="url(#goldGrad)" />
+    <path d="M 45 749 L 85 709" stroke-width="1.5" />
+
+    <!-- Bottom-Right -->
+    <path d="M 1078 719 L 1048 719 L 1048 749" />
+    <circle cx="1048" cy="719" r="4" fill="url(#goldGrad)" />
+    <path d="M 1078 749 L 1038 709" stroke-width="1.5" />
+  </g>
+
+  <!-- Watermark Kanji / Crest subtle center -->
+  <g opacity="0.04" transform="translate(561, 397) scale(1.6)">
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#000" stroke-width="12" />
+    <path d="M -90 0 L 90 0 M 0 -90 L 0 90" stroke="#000" stroke-width="8" />
+  </g>
+</svg>

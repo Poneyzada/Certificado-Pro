@@ -1,0 +1,19 @@
+🥋 CERTIFICADO PRO - PASTA DE MODELOS E LOGOS 🥋
+=====================================================
+
+Coloque aqui os arquivos visuais dos certificados do seu irmão:
+
+1. MODELO / FUNDO DO CERTIFICADO:
+   - Nome recomendado: `modelo-padrao.png` ou `modelo-padrao.jpg`
+   - Formato ideal: A4 Paisagem (297mm x 210mm ou resolução 3508 x 2480 px em 300 DPI)
+   - Pode ser a arte sem os nomes (já pronta para receber os nomes por cima)
+
+2. LOGO DA EQUIPE:
+   - Nome: `logo-equipe.png` (fundo transparente)
+
+3. ASSINATURA DIGITAL DO MESTRE / PROFESSOR (Opcional):
+   - Nome: `assinatura.png` (fundo transparente)
+
+DICA DE OURO:
+Você também pode trocar o modelo a qualquer momento diretamente pelo aplicativo
+no celular ou no computador pelo botão "Configurar Modelo / Fundo"!
